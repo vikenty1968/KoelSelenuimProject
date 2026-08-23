@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="KOEL Regression Suite" parallel="methods" thread-count="3">
+    <test verbose="2" preserve-order="true" name="Koel Smoke test">
+
+        <groups>
+            <run>
+                <include name="smoke"/>
+                <include name="index"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="tests.LoginTest"></class>
+            <class name="tests.PlayListTest"></class>
+        </classes>
+    </test>
+</suite>
+
+
