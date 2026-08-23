@@ -22,10 +22,10 @@ public class BaseTest {
     }
     @BeforeMethod(alwaysRun = true)
     public void setUp() throws MalformedURLException {
-      WebDriver  driver=driverFactory.setUpDriver(configReader.getProperty("browser"));
+      WebDriver  driver=driverFactory.setUpDriver(configReader.getProperty("browser"),configReader.getProperty("execution"));
         DriverManager.setDriver(driver);
         getDriver().get(configReader.getProperty("baseURL"));
-        getDriver().manage().window().maximize();
+    //    getDriver().manage().window().maximize();
 
     }
     @AfterMethod(alwaysRun = true)

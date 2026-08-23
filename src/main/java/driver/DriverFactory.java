@@ -12,31 +12,38 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 public class DriverFactory {
-    public WebDriver setUpDriver(String browser) throws MalformedURLException {
-        switch (browser.toLowerCase()){
+    public WebDriver setUpDriver(String browser, String execution) throws MalformedURLException {
+        switch (browser.toLowerCase()) {
             case "chrome":
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-notifications");
-         //       options.addArguments("--start-maximized");
+                //       options.addArguments("--start-maximized");
                 options.addArguments("--lang=en-US");
-                URL gridUrl = new URL("http://localhost:4444");
-                RemoteWebDriver remoteDriver =
-                        new RemoteWebDriver(gridUrl, options);
-                System.out.println("Session ID "+ remoteDriver.getSessionId());
-                System.out.println("Capabilities : "+remoteDriver.getCapabilities());
+                if (execution.equalsIgnoreCase("local")) {
+                    return new ChromeDriver(options);
+                }
+                if (execution.equalsIgnoreCase("remote")) {
 
+                    URL gridUrl = new URL("http://localhost:4444");
+                    RemoteWebDriver remoteDriver =
+                            new RemoteWebDriver(gridUrl, options);
+                    System.out.println("Session ID " + remoteDriver.getSessionId());
+               //     System.out.println("Capabilities : " + remoteDriver.getCapabilities());
 
-                remoteDriver.getSessionId();
+                    return remoteDriver;
+                }
 
-                return remoteDriver;
+                throw new IllegalArgumentException("Unsupported execution" + execution);
+
             case "firefox":
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.addPreference(
                         "intl.accept_languages", "en-US"
                 );
                 firefoxOptions.addPreference(
-                        "permissions.default.desktop-notification",2);
+                        "permissions.default.desktop-notification", 2);
 
                 return new FirefoxDriver(firefoxOptions);
 
@@ -50,7 +57,7 @@ public class DriverFactory {
                 return new SafariDriver();
 
             default:
-               throw new IllegalArgumentException("Unsupported browser"+ browser);
+                throw new IllegalArgumentException("Unsupported browser" + browser);
 
         }
     }
