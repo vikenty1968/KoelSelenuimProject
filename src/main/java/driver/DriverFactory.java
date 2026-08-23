@@ -8,16 +8,28 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 public class DriverFactory {
-    public WebDriver setUpDriver(String browser) {
+    public WebDriver setUpDriver(String browser) throws MalformedURLException {
         switch (browser.toLowerCase()){
             case "chrome":
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-notifications");
          //       options.addArguments("--start-maximized");
                 options.addArguments("--lang=en-US");
-                return new ChromeDriver(options);
+                URL gridUrl = new URL("http://localhost:4444");
+                RemoteWebDriver remoteDriver =
+                        new RemoteWebDriver(gridUrl, options);
+                System.out.println("Session ID "+ remoteDriver.getSessionId());
+                System.out.println("Capabilities : "+remoteDriver.getCapabilities());
+
+
+                remoteDriver.getSessionId();
+
+                return remoteDriver;
             case "firefox":
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.addPreference(

@@ -8,6 +8,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+import java.net.MalformedURLException;
 
 
 public class BaseTest {
@@ -20,7 +21,7 @@ public class BaseTest {
       driverFactory = new DriverFactory();
     }
     @BeforeMethod(alwaysRun = true)
-    public void setUp(){
+    public void setUp() throws MalformedURLException {
       WebDriver  driver=driverFactory.setUpDriver(configReader.getProperty("browser"));
         DriverManager.setDriver(driver);
         getDriver().get(configReader.getProperty("baseURL"));
