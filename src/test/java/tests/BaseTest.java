@@ -4,9 +4,7 @@ import config.ConfigReader;
 import driver.DriverFactory;
 import driver.DriverManager;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.*;
 
 import java.net.MalformedURLException;
 
@@ -20,9 +18,13 @@ public class BaseTest {
       configReader = new ConfigReader();
       driverFactory = new DriverFactory();
     }
+    @Parameters("browser")
     @BeforeMethod(alwaysRun = true)
-    public void setUp() throws MalformedURLException {
-      WebDriver  driver=driverFactory.setUpDriver(configReader.getProperty("browser"),configReader.getProperty("execution"));
+    public void setUp(@Optional String browser) throws MalformedURLException {
+        if(browser==null){
+            browser=configReader.getProperty("browser");
+        }
+      WebDriver  driver=driverFactory.setUpDriver(browser,configReader.getProperty("execution"));
         DriverManager.setDriver(driver);
         getDriver().get(configReader.getProperty("baseURL"));
     //    getDriver().manage().window().maximize();

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="KOEL Regression Suite" parallel="tests" thread-count="2">
+    <test verbose="2" preserve-order="true" name="Koel Chrome Smoke test">
+<parameter name="browser" value="chrome"></parameter>
+        <groups>
+            <run>
+                <include name="smoke"/>
+                <include name="index"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="tests.LoginTest"></class>
+            <class name="tests.PlayListTest"></class>
+        </classes>
+    </test>
+    <test verbose="2" preserve-order="true" name="Koel Firefox Smoke test">
+        <parameter name="browser" value="firefox"></parameter>
+        <groups>
+            <run>
+                <include name="smoke"/>
+                <include name="index"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="tests.LoginTest"></class>
+            <class name="tests.PlayListTest"></class>
+        </classes>
+    </test>
+</suite>
+
+
