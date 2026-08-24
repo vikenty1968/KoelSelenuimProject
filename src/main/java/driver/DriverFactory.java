@@ -15,28 +15,31 @@ import java.net.URL;
 
 public class DriverFactory {
     public WebDriver setUpDriver(String browser, String execution) throws MalformedURLException {
-        switch (browser.toLowerCase()) {
+
+
+        if (execution.equalsIgnoreCase("local")) {
+            return createLocalDriver(browser);
+        }
+        if (execution.equalsIgnoreCase("remote")) {
+
+            return createRemoteDriver(browser);
+        }
+
+        throw new IllegalArgumentException("Unsupported execution" + execution);
+
+    }
+
+
+
+
+    private WebDriver createLocalDriver(String browser) {
+        switch (browser.toLowerCase()){
             case "chrome":
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-notifications");
                 //       options.addArguments("--start-maximized");
                 options.addArguments("--lang=en-US");
-                if (execution.equalsIgnoreCase("local")) {
-                    return new ChromeDriver(options);
-                }
-                if (execution.equalsIgnoreCase("remote")) {
-
-                    URL gridUrl = new URL("http://localhost:4444");
-                    RemoteWebDriver remoteDriver =
-                            new RemoteWebDriver(gridUrl, options);
-                    System.out.println("Session ID " + remoteDriver.getSessionId());
-               //     System.out.println("Capabilities : " + remoteDriver.getCapabilities());
-
-                    return remoteDriver;
-                }
-
-                throw new IllegalArgumentException("Unsupported execution" + execution);
-
+                return new ChromeDriver(options);
             case "firefox":
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.addPreference(
@@ -58,7 +61,53 @@ public class DriverFactory {
 
             default:
                 throw new IllegalArgumentException("Unsupported browser" + browser);
+        }
+    }
+    private WebDriver createRemoteDriver(String browser) throws MalformedURLException {
+        URL gridUrl = new URL("http://localhost:4444");
+        RemoteWebDriver remoteDriver;
+        switch (browser.toLowerCase()){
+            case "chrome":
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--disable-notifications");
+                //       options.addArguments("--start-maximized");
+                options.addArguments("--lang=en-US");
+                remoteDriver =
+                        new RemoteWebDriver(gridUrl, options);
+                System.out.println("Session ID " + remoteDriver.getSessionId());
+                //     System.out.println("Capabilities : " + remoteDriver.getCapabilities());
+                System.out.println("Browser : "+browser);
+                return remoteDriver;
 
+            case "firefox":
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.addPreference(
+                        "intl.accept_languages", "en-US"
+                );
+                firefoxOptions.addPreference(
+                        "permissions.default.desktop-notification", 2);
+                remoteDriver =
+                        new RemoteWebDriver(gridUrl, firefoxOptions);
+                System.out.println("Session ID " + remoteDriver.getSessionId());
+                System.out.println("Browser : "+browser);
+                //     System.out.println("Capabilities : " + remoteDriver.getCapabilities());
+
+                return remoteDriver;
+
+            case "edge":
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.addArguments("--lang=en-US");
+                edgeOptions.addArguments("--disable-notifications");
+                remoteDriver =
+                        new RemoteWebDriver(gridUrl, edgeOptions);
+                System.out.println("Session ID " + remoteDriver.getSessionId());
+                return remoteDriver;
+
+            case "safari":
+                return new SafariDriver();
+
+            default:
+                throw new IllegalArgumentException("Unsupported browser" + browser);
         }
     }
 
