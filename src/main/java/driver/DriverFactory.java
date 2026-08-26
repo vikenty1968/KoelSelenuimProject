@@ -64,7 +64,13 @@ public class DriverFactory {
         }
     }
     private WebDriver createRemoteDriver(String browser) throws MalformedURLException {
-        URL gridUrl = new URL("http://localhost:4444");
+
+        String gridUrlValue = System.getProperty(
+                "gridUrl",
+                "http://localhost:4444"
+        );
+
+        URL gridUrl = new URL(gridUrlValue);
         RemoteWebDriver remoteDriver;
         switch (browser.toLowerCase()){
             case "chrome":
