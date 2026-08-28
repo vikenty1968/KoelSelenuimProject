@@ -21,6 +21,7 @@ public class BaseTest {
     @Parameters("browser")
     @BeforeMethod(alwaysRun = true)
     public void setUp(@Optional String browser) throws MalformedURLException {
+        //if remote driver was not install use local
         if(browser==null){
             browser=configReader.getProperty("browser");
         }
