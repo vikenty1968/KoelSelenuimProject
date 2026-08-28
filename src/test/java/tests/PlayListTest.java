@@ -16,7 +16,7 @@ public class PlayListTest extends AuthenticatedTest {
         playListPage.clickPlusBtn();
         playListPage.openSimplePlistForm();
         playListPage.enterPlistName(pListName);
-        Assert.assertFalse(playListPage.isSuccessBannerDisplayed());
+        Assert.assertTrue(playListPage.isSuccessBannerDisplayed());
 
     }
 }
