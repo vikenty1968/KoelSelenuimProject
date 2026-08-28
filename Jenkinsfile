@@ -4,6 +4,9 @@ pipeline {
     tools {
         maven 'Maven3'
     }
+    triggers{
+        pollSCM('H/2 * * * *')
+    }
 
     environment {
         KOEL_EMAIL = credentials('KOEL_EMAIL')
