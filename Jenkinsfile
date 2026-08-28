@@ -28,6 +28,12 @@ pipeline {
     post {
         always {
             junit 'target/surefire-reports/*.xml'
+
+        archiveArtifacts artifacts: 'reports/ExtentReport.html',
+                         allowEmptyArchive: true
+
+        archiveArtifacts artifacts: 'screenshots/**/*',
+                         allowEmptyArchive: true
         }
     }
 }
