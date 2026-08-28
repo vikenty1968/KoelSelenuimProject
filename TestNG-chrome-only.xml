@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Koel Chrome Only Suite"
+       parallel="false">
+
+    <test name="Koel Chrome Tests">
+
+        <parameter name="browser" value="chrome"/>
+
+        <classes>
+            <class name="tests.PlayListTest"/>
+            <class name="tests.LoginTest"/>
+        </classes>
+
+    </test>
+
+</suite>

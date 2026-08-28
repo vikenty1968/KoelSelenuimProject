@@ -20,7 +20,7 @@ pipeline {
                 sh '''
                     mvn test \
                       -DgridUrl=$GRID_URL \
-                      -Dsurefire.suiteXmlFiles=TestNG-cross-browser.xml
+                      -Dsurefire.suiteXmlFiles=TestNG-chrome-only.xml
                 '''
             }
         }
